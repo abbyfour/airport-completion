@@ -164,6 +164,22 @@ export class DB {
     return stmt.all() as Scoreboard;
   }
 
+  public async perCountryScoreboard(): Promise<Scoreboard> {
+    const stmt = this.db.prepare(
+      "SELECT users.username, COUNT(DISTINCT airports.country) as count FROM users JOIN user_airports ON users.id = user_airports.user_id JOIN airports ON user_airports.airport_id = airports.id GROUP BY users.id ORDER BY count DESC"
+    );
+
+    return stmt.all() as Scoreboard;
+  }
+
+  public async countryScoreboard(): Promise<CountryScoreboard> {
+    const stmt = this.db.prepare(
+      "SELECT airports.country, COUNT(user_airports.user_id) as count FROM airports JOIN user_airports ON airports.id = user_airports.airport_id GROUP BY airports.country ORDER BY count DESC"
+    );
+
+    return stmt.all() as CountryScoreboard;
+  }
+
   private createTables() {
     const users = this.db.prepare(User.schema);
     users.run();
@@ -178,3 +194,4 @@ export class DB {
 }
 
 export type Scoreboard = { username: string; count: number }[];
+export type CountryScoreboard = { country: string; count: number }[];

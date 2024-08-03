@@ -2,6 +2,10 @@ import { InternalClient } from "@/external/internalClient";
 import { GeoJSON as LeafletGeoJSON } from "leaflet";
 import { useEffect, useRef } from "react";
 import { GeoJSON } from "react-leaflet";
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../../tailwind.config";
+
+const fullConfig = resolveConfig(tailwindConfig);
 
 type CountriesLayerProps = {
   countryCodes: string[];
@@ -32,10 +36,10 @@ export function CountriesLayer({ countryCodes }: CountriesLayerProps) {
       ref={geoJsonLayer}
       data={initialData}
       style={{
-        fillColor: "#ffcd00",
-        weight: 2,
+        fillColor: fullConfig.theme.colors.yellow[400],
+        weight: 1,
         opacity: 1,
-        color: "transparent",
+        color: "#e7c952",
         fillOpacity: 0.4,
       }}
     />

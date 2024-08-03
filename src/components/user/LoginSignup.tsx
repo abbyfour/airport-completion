@@ -6,9 +6,10 @@ import { UserDisplay } from "./UserDisplay";
 type LoginSignupProps = {
   onLogin: (user: User) => void;
   user: User | undefined;
+  className?: string;
 };
 
-export function LoginSignup({ onLogin, user }: LoginSignupProps) {
+export function LoginSignup({ onLogin, user, className }: LoginSignupProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | undefined>(undefined);
@@ -18,23 +19,34 @@ export function LoginSignup({ onLogin, user }: LoginSignupProps) {
 
     if (!InternalClient.isError(user)) {
       onLogin(new User(user.username, user.password, user.id));
+      setError(undefined);
     } else {
       setError(user.error);
     }
   };
 
   const signup = async () => {
+    if (!username || !password) {
+      setError("Username and password are required");
+      return;
+    }
+
     const user = await InternalClient.signup({ username, password });
 
     if (!InternalClient.isError(user)) {
       onLogin(new User(user.username, user.password, user.id));
+      setError(undefined);
     } else {
       setError(user.error);
     }
   };
 
   return (
-    <div className="p-1 absolute right-5 top-10 z-[401] flex flex-col gap-2 bg-white rounded">
+    <div
+      className={
+        className + " p-1 z-[401] flex flex-col gap-2 bg-white rounded"
+      }
+    >
       {error && (
         <div className="p-2 bg-red-200 rounded-lg">
           <p>{error}</p>

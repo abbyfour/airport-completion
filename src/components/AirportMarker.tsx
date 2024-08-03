@@ -2,7 +2,7 @@ import { AirplaneIcon } from "@/assets/AirplaneIcon";
 import { AirportWithUsers } from "@/database/entities/airport";
 import { UserProperties } from "@/database/entities/user";
 import { toLatLng } from "@/external/APIAirport";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, Tooltip } from "react-leaflet";
 
 export type AirportMarkerProps = {
   airport: AirportWithUsers;
@@ -17,12 +17,12 @@ export function AirportMarker({
 }: AirportMarkerProps) {
   return (
     <Marker position={toLatLng(airport.airport)} icon={AirplaneIcon}>
-      <Popup className="text-teal-900">
+      <Popup className="text-red-950">
         <h3 className="text-lg m-0">
-          {airport.airport.name}{" "}
-          <span className="text-slate-400 text-base">
+          <span className="text-red-500 text-base mr-2">
             {airport.airport.iata_code}
           </span>
+          {airport.airport.name}{" "}
         </h3>
 
         <div>
@@ -46,6 +46,7 @@ export function AirportMarker({
           </ul>
         </div>
       </Popup>
+      <Tooltip>{airport.airport.iata_code}</Tooltip>
     </Marker>
   );
 }

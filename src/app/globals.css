@@ -6,14 +6,28 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .b-themed {
+    @apply border-2 border-red-700;
+  }
+
+  .font-display {
+    font-family: "IBM Plex Serif", serif;
+  }
+
+  .prevent-select {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+  }
 }
 
 html {
-  color: theme("colors.teal.900");
+  color: theme("colors.red.950");
 }
 
 input {
-  border: 2px theme("colors.teal.900") solid;
+  border: 2px theme("colors.red.950") solid;
   border-radius: 5px;
   padding: 2px 3px;
 }
@@ -21,9 +35,15 @@ input {
 button {
   padding: 5px 10px;
   border-radius: 5px;
-  background: theme("colors.teal.50");
-  border: 2px theme("colors.teal.900") solid;
+  background: theme("colors.red.100");
+  border: 2px theme("colors.red.950") solid;
 }
 
 button:hover {
+  background: theme("colors.red.200");
+}
+
+.leaflet-marker-icon {
+  filter: invert(9%) sepia(41%) saturate(3897%) hue-rotate(345deg)
+    brightness(86%) contrast(101%);
 }

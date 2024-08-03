@@ -1,4 +1,4 @@
-import { Scoreboard } from "@/database/db";
+import { CountryScoreboard, Scoreboard } from "@/database/db";
 import {
   AirportProperties,
   AirportWithUsers,
@@ -78,6 +78,14 @@ export class InternalClient {
 
   public static async scoreboard(): Promise<Scoreboard> {
     return await InternalClient.get("/airports/scoreboard");
+  }
+
+  public static async scoreboardPerCountry(): Promise<Scoreboard> {
+    return await InternalClient.get("/airports/scoreboard/perCountry");
+  }
+
+  public static async countryScoreboard(): Promise<CountryScoreboard> {
+    return await InternalClient.get("/airports/scoreboard/countries");
   }
 
   private static async get<T = any>(path: string): Promise<T> {

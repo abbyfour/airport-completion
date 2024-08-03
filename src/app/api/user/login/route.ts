@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
   const user = DB.getInstance().attemptLogin(params.username, params.password);
 
-  const body = user ? user : { error: "Invalid username or password smh" };
+  const body = user ? user : { error: "Invalid username or password" };
 
   return Response.json(body);
 }

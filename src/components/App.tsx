@@ -3,8 +3,8 @@
 import { User } from "@/database/entities/user";
 import { useEffect, useState } from "react";
 import { CompletionMap } from "./CompletionMap";
-import { Scoreboard } from "./Scoreboard";
-import { LoginSignup } from "./user/LoginSignup";
+import { Footer } from "./sidepanel/Footer";
+import { Sidepanel } from "./sidepanel/Sidepanel";
 
 export function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -31,8 +31,9 @@ export function App() {
         setFingerprint={setFingerprint}
       />
 
-      <LoginSignup onLogin={onLogin} user={user} />
-      <Scoreboard currentUser={user} fingerprint={fingerprint} />
+      <Sidepanel onLogin={onLogin} user={user} fingerprint={fingerprint} />
+
+      <Footer />
     </div>
   );
 }
