@@ -9,6 +9,8 @@ type Error = { error: string };
 export class InternalClient {
   private constructor() {}
 
+  private static countries: GeoJSON.FeatureCollection | undefined = undefined;
+
   private static readonly url = "/api";
 
   public static isError(response: any): response is Error {
@@ -56,6 +58,17 @@ export class InternalClient {
       user_id: userId,
       airport_id: airportId,
     });
+  }
+
+  public static async fetchCountriesGeoJSON(): Promise<GeoJSON.FeatureCollection> {
+    if (this.countries) return this.countries;
+
+    const data = await fetch("/countries.geojson");
+
+    const geojson = await data.json();
+    this.countries = geojson;
+
+    return geojson;
   }
 
   private static async get<T = any>(path: string): Promise<T> {

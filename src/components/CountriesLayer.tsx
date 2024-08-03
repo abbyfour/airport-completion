@@ -1,4 +1,4 @@
-import countries from "@/assets/countries.geo.json";
+import { InternalClient } from "@/external/internalClient";
 import { GeoJSON as LeafletGeoJSON } from "leaflet";
 import { useEffect, useRef } from "react";
 import { GeoJSON } from "react-leaflet";
@@ -7,23 +7,30 @@ type CountriesLayerProps = {
   countryCodes: string[];
 };
 
+const initialData: GeoJSON.FeatureCollection = {
+  type: "FeatureCollection",
+  features: [],
+};
+
 export function CountriesLayer({ countryCodes }: CountriesLayerProps) {
   const geoJsonLayer = useRef<LeafletGeoJSON | null>(null);
 
   useEffect(() => {
-    if (geoJsonLayer.current) {
-      geoJsonLayer.current
-        .clearLayers()
-        .addData(
-          filterGeoJSON(countries as GeoJSON.FeatureCollection, countryCodes)
-        );
-    }
-  }, [countryCodes, countries]);
+    InternalClient.fetchCountriesGeoJSON().then((countries) => {
+      if (geoJsonLayer.current) {
+        geoJsonLayer.current
+          .clearLayers()
+          .addData(
+            filterGeoJSON(countries as GeoJSON.FeatureCollection, countryCodes)
+          );
+      }
+    });
+  }, [countryCodes]);
 
   return (
     <GeoJSON
       ref={geoJsonLayer}
-      data={countries as any}
+      data={initialData}
       style={{
         fillColor: "#ffcd00",
         weight: 2,
