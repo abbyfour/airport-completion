@@ -42,7 +42,7 @@ export function LoginSignup({ onLogin, user }: LoginSignupProps) {
       )}
 
       {!user && (
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-2">
           <label htmlFor="username">Username</label>
           <input
             type="text"
