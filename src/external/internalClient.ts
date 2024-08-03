@@ -1,3 +1,4 @@
+import { Scoreboard } from "@/database/db";
 import {
   AirportProperties,
   AirportWithUsers,
@@ -15,6 +16,10 @@ export class InternalClient {
 
   public static isError(response: any): response is Error {
     return "error" in response;
+  }
+
+  public static generateFingerprint(fingerprint: number): number {
+    return (fingerprint + 1) % 1000000;
   }
 
   public static async attemptLogin(
@@ -69,6 +74,10 @@ export class InternalClient {
     this.countries = geojson;
 
     return geojson;
+  }
+
+  public static async scoreboard(): Promise<Scoreboard> {
+    return await InternalClient.get("/airports/scoreboard");
   }
 
   private static async get<T = any>(path: string): Promise<T> {

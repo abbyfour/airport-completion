@@ -11,7 +11,15 @@ import { AirportLookup } from "./AirportLookup";
 import { AirportsLayer } from "./AirportsLayer";
 import { CountriesLayer } from "./CountriesLayer";
 
-export function CompletionMap({ user }: { user?: UserProperties }) {
+export function CompletionMap({
+  user,
+  setFingerprint,
+  fingerprint,
+}: {
+  user?: UserProperties;
+  setFingerprint: (fingerprint: number) => void;
+  fingerprint: number;
+}) {
   const mapPosition: LatLngTuple = [49.193901062, -123.183998108];
 
   const [airports, setAirports] = useState<Array<AirportWithUsers>>([]);
@@ -19,6 +27,7 @@ export function CompletionMap({ user }: { user?: UserProperties }) {
 
   function fetchAirports() {
     InternalClient.fetchAirports().then((response) => {
+      setFingerprint(InternalClient.generateFingerprint(fingerprint));
       if (InternalClient.isError(response)) {
         console.error(response.error);
       } else {

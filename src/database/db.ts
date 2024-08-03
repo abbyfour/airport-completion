@@ -156,6 +156,14 @@ export class DB {
     return airports.filter((airport) => airport.users.length > 0);
   }
 
+  public async scoreboard(): Promise<Scoreboard> {
+    const stmt = this.db.prepare(
+      "SELECT users.username, COUNT(user_airports.airport_id) as count FROM users JOIN user_airports ON users.id = user_airports.user_id GROUP BY users.id ORDER BY count DESC"
+    );
+
+    return stmt.all() as Scoreboard;
+  }
+
   private createTables() {
     const users = this.db.prepare(User.schema);
     users.run();
@@ -168,3 +176,5 @@ export class DB {
     });
   }
 }
+
+export type Scoreboard = { username: string; count: number }[];
