@@ -8,6 +8,7 @@ import { User } from "@/database/entities/user";
 import { InternalClient } from "@/external/internalClient";
 import { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { ByCountryScoreboard } from "./ByCountryScoreboard";
 import { CountryScoreboard } from "./CountryScoreboard";
 import { DefaultScoreboard } from "./DefaultScoreboard";
 
@@ -82,16 +83,20 @@ function ScoreboardTabs({
   const [countryScoreboard, setCountryScoreboard] = useState<
     CountryScoreboardType | undefined
   >(undefined);
+  const [byCountryScoreboard, setByCountryScoreboard] = useState<
+    ScoreboardType | undefined
+  >(undefined);
 
   useEffect(() => {
     InternalClient.countryScoreboard().then((scoreboard) => {
       setCountryScoreboard(scoreboard);
     });
-  }, [fingerprint]);
 
-  useEffect(() => {
     InternalClient.scoreboard().then((scoreboard) => {
       setScoreboard(scoreboard);
+    });
+    InternalClient.scoreboardByCountry().then((scoreboard) => {
+      setByCountryScoreboard(scoreboard);
     });
   }, [fingerprint]);
 
@@ -112,6 +117,12 @@ function ScoreboardTabs({
           <Tab className="hover:underline">
             <h1>Top Countries</h1>
           </Tab>
+
+          <span className="font-semibold">|</span>
+
+          <Tab className="hover:underline">
+            <h1>Top by Country</h1>
+          </Tab>
         </TabList>
 
         <TabPanel>
@@ -123,6 +134,13 @@ function ScoreboardTabs({
 
         <TabPanel>
           <CountryScoreboard scoreboard={countryScoreboard} />
+        </TabPanel>
+
+        <TabPanel>
+          <ByCountryScoreboard
+            scoreboard={byCountryScoreboard}
+            currentUser={currentUser}
+          />
         </TabPanel>
       </Tabs>
     </div>

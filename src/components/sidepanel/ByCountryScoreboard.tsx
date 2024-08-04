@@ -2,25 +2,16 @@
 
 import { Scoreboard } from "@/database/db";
 import { UserProperties } from "@/database/entities/user";
-import { InternalClient } from "@/external/internalClient";
-import { useEffect, useState } from "react";
 
 type PerCountryScoreboardProps = {
   currentUser?: UserProperties;
-  fingerprint: number;
+  scoreboard?: Scoreboard;
 };
 
-export function PerCountryScoreboard({
+export function ByCountryScoreboard({
   currentUser,
-  fingerprint,
+  scoreboard,
 }: PerCountryScoreboardProps) {
-  const [scoreboard, setScoreboard] = useState<Scoreboard | undefined>();
-  useEffect(() => {
-    InternalClient.scoreboardPerCountry().then((scoreboard) => {
-      setScoreboard(scoreboard);
-    });
-  }, [fingerprint]);
-
   return (
     <div className="grid grid-cols-3 justify-between w-full [&>*:nth-child(6n+4)]:bg-red-50 [&>*:nth-child(6n+5)]:bg-red-50 [&>*:nth-child(6n+6)]:bg-red-50">
       <div className="font-semibold">Rank</div>

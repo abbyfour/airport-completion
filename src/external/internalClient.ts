@@ -80,7 +80,7 @@ export class InternalClient {
     return await InternalClient.get("/airports/scoreboard");
   }
 
-  public static async scoreboardPerCountry(): Promise<Scoreboard> {
+  public static async scoreboardByCountry(): Promise<Scoreboard> {
     return await InternalClient.get("/airports/scoreboard/perCountry");
   }
 
