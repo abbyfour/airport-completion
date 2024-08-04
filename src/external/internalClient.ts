@@ -81,7 +81,7 @@ export class InternalClient {
   }
 
   public static async scoreboardByCountry(): Promise<Scoreboard> {
-    return await InternalClient.get("/airports/scoreboard/perCountry");
+    return await InternalClient.get("/airports/scoreboard/byCountry");
   }
 
   public static async countryScoreboard(): Promise<CountryScoreboard> {

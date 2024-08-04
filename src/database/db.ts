@@ -164,9 +164,9 @@ export class DB {
     return stmt.all() as Scoreboard;
   }
 
-  public async perCountryScoreboard(): Promise<Scoreboard> {
+  public async byCountryScoreboard(): Promise<Scoreboard> {
     const stmt = this.db.prepare(
-      `SELECT users.username, COUNT(*) as count 
+      `SELECT username, COUNT(*) as count 
        FROM (
          SELECT users.username, airports.country 
          FROM users 
@@ -174,7 +174,7 @@ export class DB {
          JOIN airports ON user_airports.airport_id = airports.id 
          GROUP BY users.username, airports.country
        ) as user_countries 
-       GROUP BY users.username 
+       GROUP BY username 
        ORDER BY count DESC`
     );
 
