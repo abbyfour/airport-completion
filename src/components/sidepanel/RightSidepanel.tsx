@@ -27,10 +27,11 @@ export function RightSidepanel({
           user={user}
           className="w-80 z-[401] mr-5"
         />
+
         <Scoreboard
           currentUser={user}
           fingerprint={fingerprint}
-          className="z-[401] mr-5 max-h-[70vh] overflow-scroll"
+          className="z-[401] mr-5 max-h-[70vh]"
           setSelectedUser={setSelectedUser}
         />
       </div>

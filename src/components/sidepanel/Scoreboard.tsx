@@ -48,12 +48,12 @@ export function Scoreboard({
     <div
       className={
         className +
-        " py-3 pr-0 z-[401] mt-2 bg-white rounded flex items-center" +
+        " py-3 pr-0 z-[401] mt-2 bg-white rounded flex" +
         (!hidden ? " w-2/6 min-w-[500px]" : "")
       }
     >
       <p
-        className="transform rotate-[270deg] mr-2 text-sm hover:underline hover:cursor-pointer m-2"
+        className="transform rotate-[270deg] mr-2 text-sm hover:underline hover:cursor-pointer m-2 self-center"
         onClick={toggle}
       >
         {hidden ? "Show" : "Hide"}
@@ -109,7 +109,7 @@ function ScoreboardTabs({
   }, [fingerprint]);
 
   return (
-    <div className={"ml-2 w-full"}>
+    <div className="ml-2 w-full overflow-scroll">
       <Tabs
         selectedTabClassName="font-bold"
         onSelect={onSelect}
