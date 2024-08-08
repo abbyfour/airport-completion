@@ -52,7 +52,7 @@ export function AirportLookup({
           id="airportCode"
           ref={airportCodeInput}
           disabled={loading || disabled}
-          placeholder="IATA code"
+          placeholder="IATA/ICAO code"
         />
       </form>
 

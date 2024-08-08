@@ -2,7 +2,7 @@ import { UserProperties } from "./user";
 
 export interface AirportProperties {
   id: number;
-  iata_code: string;
+  code: string;
   name: string;
   country: string;
   latitude: number;
@@ -13,7 +13,7 @@ export class Airport {
   public static readonly schema = `
     CREATE TABLE IF NOT EXISTS airports (
         id INTEGER PRIMARY KEY,
-        iata_code TEXT NOT NULL,
+        code TEXT NOT NULL,
         name TEXT NOT NULL,
         country TEXT NOT NULL,
         latitude REAL NOT NULL,
@@ -23,21 +23,21 @@ export class Airport {
 
   public id: number;
   public name: string;
-  public iata_code: string;
+  public code: string;
   public country: string;
   public latitude: number;
   public longitude: number;
 
   constructor(
     name: string,
-    iata_code: string,
+    code: string,
     country: string,
     latitude: number,
     longitude: number,
     id: number
   ) {
     this.name = name;
-    this.iata_code = iata_code;
+    this.code = code;
     this.country = country;
     this.latitude = latitude;
     this.longitude = longitude;

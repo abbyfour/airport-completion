@@ -20,7 +20,7 @@ export function AirportMarker({
       <Popup className="text-red-950">
         <h3 className="text-lg m-0">
           <span className="text-red-500 text-base mr-2">
-            {airport.airport.iata_code}
+            {airport.airport.code}
           </span>
           {airport.airport.name}{" "}
         </h3>
@@ -46,7 +46,7 @@ export function AirportMarker({
           </ul>
         </div>
       </Popup>
-      <Tooltip>{airport.airport.iata_code}</Tooltip>
+      <Tooltip>{airport.airport.code}</Tooltip>
     </Marker>
   );
 }

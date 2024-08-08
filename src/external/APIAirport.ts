@@ -20,8 +20,13 @@ export class APIAirport {
     return this.properties.properties.name;
   }
 
-  get iataCode(): string {
-    return this.properties.properties.iata || "";
+  get code(): string {
+    // Local code sometimes contains the ICAO code, which is good enough for our use case
+    return (
+      this.properties.properties.iata ||
+      this.properties.properties.local_code ||
+      ""
+    );
   }
 
   get countryCode(): string {
@@ -35,7 +40,7 @@ export class APIAirport {
   public asDBProperties(): AirportProperties {
     return {
       id: this.id,
-      iata_code: this.iataCode,
+      code: this.code,
       name: this.name,
       country: this.countryCode,
       latitude: this.position.lat,

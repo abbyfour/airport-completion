@@ -74,12 +74,12 @@ export class DB {
 
   public createAirport(properties: AirportProperties): Airport {
     const stmt = this.db.prepare(
-      "INSERT INTO airports (name, iata_code, country, latitude, longitude) VALUES (?, ?, ?, ?, ?)"
+      "INSERT INTO airports (name, code, country, latitude, longitude) VALUES (?, ?, ?, ?, ?)"
     );
 
     const info = stmt.run(
       properties.name,
-      properties.iata_code,
+      properties.code,
       properties.country,
       properties.latitude,
       properties.longitude
@@ -87,7 +87,7 @@ export class DB {
 
     return new Airport(
       properties.name,
-      properties.iata_code,
+      properties.code,
       properties.country,
       properties.latitude,
       properties.longitude,
@@ -96,15 +96,13 @@ export class DB {
   }
 
   public fetchOrCreateAirport(properties: AirportProperties): Airport {
-    const stmt = this.db.prepare("SELECT * FROM airports WHERE iata_code = ?");
-    const airport = stmt.get(properties.iata_code) as
-      | AirportProperties
-      | undefined;
+    const stmt = this.db.prepare("SELECT * FROM airports WHERE code = ?");
+    const airport = stmt.get(properties.code) as AirportProperties | undefined;
 
     return airport
       ? new Airport(
           airport.name,
-          airport.iata_code,
+          airport.code,
           airport.country,
           airport.latitude,
           airport.longitude,
@@ -129,7 +127,7 @@ export class DB {
       const airport: AirportProperties = {
         id: result.id,
         name: result.name,
-        iata_code: result.iata_code,
+        code: result.code,
         country: result.country,
         latitude: result.latitude,
         longitude: result.longitude,
