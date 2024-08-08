@@ -4,7 +4,6 @@ import { User } from "@/database/entities/user";
 import { useEffect, useState } from "react";
 import { CompletionMap } from "./CompletionMap";
 import { Footer } from "./sidepanel/Footer";
-import { Sidepanel } from "./sidepanel/Sidepanel";
 
 export function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -29,9 +28,8 @@ export function App() {
         user={user}
         fingerprint={fingerprint}
         setFingerprint={setFingerprint}
+        onLogin={onLogin}
       />
-
-      <Sidepanel onLogin={onLogin} user={user} fingerprint={fingerprint} />
 
       <Footer />
     </div>

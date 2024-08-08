@@ -4,6 +4,7 @@ import {
   AirportWithUsers,
 } from "@/database/entities/airport";
 import { UserProperties } from "@/database/entities/user";
+import { UserDetails } from "@/database/UserDBModule";
 
 type Error = { error: string };
 
@@ -86,6 +87,10 @@ export class InternalClient {
 
   public static async countryScoreboard(): Promise<CountryScoreboard> {
     return await InternalClient.get("/airports/scoreboard/countries");
+  }
+
+  public static async userDetails(id: number): Promise<UserDetails> {
+    return await InternalClient.get(`/user/stats/${id}`);
   }
 
   private static async get<T = any>(path: string): Promise<T> {

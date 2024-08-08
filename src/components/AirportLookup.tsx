@@ -4,8 +4,10 @@ import { APIAirport } from "@/external/APIAirport";
 import { AirportLookupAPI } from "@/external/airports";
 import { useRef, useState } from "react";
 
+export type OnNewAirport = (airport: APIAirport) => void;
+
 type AirportLookupProps = {
-  onNewAirport: (airport: APIAirport) => void;
+  onNewAirport: OnNewAirport;
   disabled?: boolean;
 };
 
@@ -41,7 +43,7 @@ export function AirportLookup({
   }
 
   return (
-    <div className="absolute top-10 left-[100px] z-[500] bg-white p-3 rounded w-1/5">
+    <div className="z-[500] bg-white p-3 rounded ml-5 mb-2 w-full">
       <form onSubmit={lookupAirport} className="flex flex-col gap-2">
         <label htmlFor="airportCode" className="mr-3">
           Enter an airport you've been to...

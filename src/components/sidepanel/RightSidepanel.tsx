@@ -1,14 +1,21 @@
 import { User } from "@/database/entities/user";
+import { SetSelectedUser } from "../CompletionMap";
 import { LoginSignup } from "../user/LoginSignup";
 import { Scoreboard } from "./Scoreboard";
 
 type SidepanelProps = {
   onLogin: (user: User) => void;
-  user: User | undefined;
+  user?: User;
   fingerprint: number;
+  setSelectedUser: SetSelectedUser;
 };
 
-export function Sidepanel({ onLogin, user, fingerprint }: SidepanelProps) {
+export function RightSidepanel({
+  onLogin,
+  user,
+  fingerprint,
+  setSelectedUser,
+}: SidepanelProps) {
   return (
     <>
       <h2 className="text-6xl mb-2 font-display font-black italic top-0 right-0 absolute z-[401] m-5 no-select">
@@ -23,7 +30,8 @@ export function Sidepanel({ onLogin, user, fingerprint }: SidepanelProps) {
         <Scoreboard
           currentUser={user}
           fingerprint={fingerprint}
-          className="z-[401] mr-5"
+          className="z-[401] mr-5 max-h-[70vh] overflow-scroll"
+          setSelectedUser={setSelectedUser}
         />
       </div>
     </>

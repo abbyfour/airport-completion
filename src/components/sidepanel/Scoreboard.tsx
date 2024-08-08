@@ -8,19 +8,24 @@ import { User } from "@/database/entities/user";
 import { InternalClient } from "@/external/internalClient";
 import { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import { SetSelectedUser } from "../CompletionMap";
 import { ByCountryScoreboard } from "./ByCountryScoreboard";
 import { CountryScoreboard } from "./CountryScoreboard";
 import { DefaultScoreboard } from "./DefaultScoreboard";
+
+type ScoreboardProps = {
+  currentUser?: User;
+  fingerprint: number;
+  className?: string;
+  setSelectedUser: SetSelectedUser;
+};
 
 export function Scoreboard({
   currentUser,
   fingerprint,
   className,
-}: {
-  currentUser?: User;
-  fingerprint: number;
-  className?: string;
-}) {
+  setSelectedUser,
+}: ScoreboardProps) {
   const [hidden, setHidden] = useState(
     localStorage.getItem("scoreboard") === "hidden"
   );
@@ -59,6 +64,7 @@ export function Scoreboard({
           fingerprint={fingerprint}
           selectedTab={selectedTab}
           onSelect={onTabSelect}
+          setSelectedUser={setSelectedUser}
         />
       )}
     </div>
@@ -70,12 +76,14 @@ function ScoreboardTabs({
   selectedTab,
   currentUser,
   onSelect,
+  setSelectedUser,
 }: {
   scoreboard?: ScoreboardType;
   fingerprint: number;
   selectedTab: string;
   currentUser?: User;
   onSelect: (number: number) => void;
+  setSelectedUser: SetSelectedUser;
 }) {
   const [scoreboard, setScoreboard] = useState<ScoreboardType | undefined>(
     undefined
@@ -115,32 +123,34 @@ function ScoreboardTabs({
           <span className="font-semibold">|</span>
 
           <Tab className="hover:underline">
-            <h1>Top Countries</h1>
+            <h1>Top by Country</h1>
           </Tab>
 
           <span className="font-semibold">|</span>
 
           <Tab className="hover:underline">
-            <h1>Top by Country</h1>
+            <h1>Top Countries</h1>
           </Tab>
         </TabList>
 
         <TabPanel>
           <DefaultScoreboard
+            setSelectedUser={setSelectedUser}
             scoreboard={scoreboard}
             currentUser={currentUser}
           />
         </TabPanel>
 
         <TabPanel>
-          <CountryScoreboard scoreboard={countryScoreboard} />
-        </TabPanel>
-
-        <TabPanel>
           <ByCountryScoreboard
+            setSelectedUser={setSelectedUser}
             scoreboard={byCountryScoreboard}
             currentUser={currentUser}
           />
+        </TabPanel>
+
+        <TabPanel>
+          <CountryScoreboard scoreboard={countryScoreboard} />
         </TabPanel>
       </Tabs>
     </div>

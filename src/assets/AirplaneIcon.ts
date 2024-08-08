@@ -6,3 +6,10 @@ export const AirplaneIcon = new L.Icon({
   popupAnchor: [-0, -0],
   iconSize: [20, 30],
 });
+
+export const HighlightedAirplaneIcon = new L.Icon({
+  iconUrl: "/airplane-highlighted.svg",
+  iconRetinaUrl: "/airplane-highlighted.svg",
+  popupAnchor: [-0, -0],
+  iconSize: [20, 30],
+});

@@ -7,7 +7,7 @@ export function Footer() {
         </a>
         <a
           className="mr-4"
-          href="httpshttps://github.com/jivison/airport-completion"
+          href="https://github.com/jivison/airport-completion"
         >
           GitHub
         </a>

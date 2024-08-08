@@ -1,29 +1,42 @@
 "use client";
 
 import { AirportWithUsers } from "@/database/entities/airport";
-import { UserProperties } from "@/database/entities/user";
+import { User, UserProperties } from "@/database/entities/user";
 import { APIAirport } from "@/external/APIAirport";
 import { InternalClient } from "@/external/internalClient";
 import { LatLngTuple } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
-import { AirportLookup } from "./AirportLookup";
 import { AirportsLayer } from "./AirportsLayer";
 import { CountriesLayer } from "./CountriesLayer";
+import { LeftSidepanel } from "./sidepanel/LeftSidepanel";
+import { RightSidepanel } from "./sidepanel/RightSidepanel";
+
+export type SetSelectedUser = (user: UserProperties | undefined) => void;
+
+type CompletionMapProps = {
+  user?: User;
+  setFingerprint: (fingerprint: number) => void;
+  fingerprint: number;
+  onLogin: (user: User) => void;
+};
 
 export function CompletionMap({
   user,
   setFingerprint,
   fingerprint,
-}: {
-  user?: UserProperties;
-  setFingerprint: (fingerprint: number) => void;
-  fingerprint: number;
-}) {
+  onLogin,
+}: CompletionMapProps) {
   const mapPosition: LatLngTuple = [49.193901062, -123.183998108];
 
   const [airports, setAirports] = useState<Array<AirportWithUsers>>([]);
   const [doneLoading, setDoneLoading] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserProperties | undefined>(
+    undefined
+  );
+  const [highlightedAirportCodes, setHighlightedAirportCodes] = useState<
+    string[]
+  >([]);
 
   function fetchAirports() {
     InternalClient.fetchAirports().then((response) => {
@@ -87,15 +100,25 @@ export function CompletionMap({
 
         <AirportsLayer
           airports={airports}
-          currentUser={user}
           onDeregister={deregister}
+          highlightedAirportCodes={highlightedAirportCodes}
         />
         <CountriesLayer countryCodes={airports.map((a) => a.airport.country)} />
       </MapContainer>
 
-      <AirportLookup
-        disabled={!user || !doneLoading}
+      <LeftSidepanel
+        lookupDisabled={!user || !doneLoading}
         onNewAirport={registerAirport}
+        selectedUser={selectedUser}
+        setHighlightedAirportCodes={setHighlightedAirportCodes}
+        fingerprint={fingerprint}
+      />
+
+      <RightSidepanel
+        onLogin={onLogin}
+        user={user}
+        fingerprint={fingerprint}
+        setSelectedUser={setSelectedUser}
       />
     </div>
   );

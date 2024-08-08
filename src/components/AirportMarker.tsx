@@ -1,4 +1,4 @@
-import { AirplaneIcon } from "@/assets/AirplaneIcon";
+import { AirplaneIcon, HighlightedAirplaneIcon } from "@/assets/AirplaneIcon";
 import { AirportWithUsers } from "@/database/entities/airport";
 import { UserProperties } from "@/database/entities/user";
 import { toLatLng } from "@/external/APIAirport";
@@ -8,15 +8,20 @@ export type AirportMarkerProps = {
   airport: AirportWithUsers;
   currentUser?: UserProperties;
   onDeregister: (airportId: number) => void;
+  highlighted?: boolean;
 };
 
 export function AirportMarker({
   airport,
   currentUser,
   onDeregister,
+  highlighted,
 }: AirportMarkerProps) {
   return (
-    <Marker position={toLatLng(airport.airport)} icon={AirplaneIcon}>
+    <Marker
+      position={toLatLng(airport.airport)}
+      icon={highlighted ? HighlightedAirplaneIcon : AirplaneIcon}
+    >
       <Popup className="text-red-950">
         <h3 className="text-lg m-0">
           <span className="text-red-500 text-base mr-2">

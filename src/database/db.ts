@@ -6,9 +6,11 @@ import {
 } from "./entities/airport";
 import { User, UserProperties } from "./entities/user";
 import { UserAirport } from "./entities/UserAirport";
+import { UserDetailsModule } from "./UserDetailsModule";
 
 export class DB {
   public readonly db: Database.Database;
+  public readonly userDetails: UserDetailsModule;
 
   private static instance: DB;
   private constructor() {
@@ -16,6 +18,7 @@ export class DB {
     db.pragma("journal_mode = WAL");
 
     this.db = db;
+    this.userDetails = new UserDetailsModule(this.db);
     this.createTables();
   }
 
@@ -156,7 +159,7 @@ export class DB {
 
   public async scoreboard(): Promise<Scoreboard> {
     const stmt = this.db.prepare(
-      "SELECT users.username, COUNT(user_airports.airport_id) as count FROM users JOIN user_airports ON users.id = user_airports.user_id GROUP BY users.id ORDER BY count DESC"
+      "SELECT users.username, users.id as userId, COUNT(user_airports.airport_id) as count FROM users JOIN user_airports ON users.id = user_airports.user_id GROUP BY users.id ORDER BY count DESC"
     );
 
     return stmt.all() as Scoreboard;
@@ -164,15 +167,15 @@ export class DB {
 
   public async byCountryScoreboard(): Promise<Scoreboard> {
     const stmt = this.db.prepare(
-      `SELECT username, COUNT(*) as count 
+      `SELECT username, userId, COUNT(*) as count 
        FROM (
-         SELECT users.username, airports.country 
+         SELECT users.username, users.id as userId, airports.country 
          FROM users 
          JOIN user_airports ON users.id = user_airports.user_id 
          JOIN airports ON user_airports.airport_id = airports.id 
-         GROUP BY users.username, airports.country
+         GROUP BY users.username, users.id, airports.country
        ) as user_countries 
-       GROUP BY username 
+       GROUP BY username, userId
        ORDER BY count DESC`
     );
 
@@ -208,5 +211,5 @@ export class DB {
   }
 }
 
-export type Scoreboard = { username: string; count: number }[];
+export type Scoreboard = { username: string; userId: number; count: number }[];
 export type CountryScoreboard = { country: string; count: number }[];
