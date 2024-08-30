@@ -36,7 +36,7 @@ export function AirportMarker({
             {airport.users.map((user) => (
               <li key={user.id}>
                 {user.username}{" "}
-                {currentUser?.id === user.id ? (
+                {currentUser?.id == user.id ? (
                   <span
                     onClick={() => onDeregister(airport.airport.id)}
                     className="hover:cursor-pointer text-red-500"
