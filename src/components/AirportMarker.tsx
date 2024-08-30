@@ -6,7 +6,7 @@ import { Marker, Popup, Tooltip } from "react-leaflet";
 
 export type AirportMarkerProps = {
   airport: AirportWithUsers;
-  currentUser?: UserProperties;
+  currentUser: UserProperties | undefined;
   onDeregister: (airportId: number) => void;
   highlighted?: boolean;
 };
@@ -36,7 +36,7 @@ export function AirportMarker({
             {airport.users.map((user) => (
               <li key={user.id}>
                 {user.username}{" "}
-                {currentUser?.id == user.id ? (
+                {currentUser?.id === user.id ? (
                   <span
                     onClick={() => onDeregister(airport.airport.id)}
                     className="hover:cursor-pointer text-red-500"

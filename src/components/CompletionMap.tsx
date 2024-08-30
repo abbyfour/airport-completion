@@ -15,17 +15,18 @@ import { RightSidepanel } from "./sidepanel/RightSidepanel";
 export type SetSelectedUser = (user: UserProperties | undefined) => void;
 
 type CompletionMapProps = {
-  user?: User;
+  currentUser?: User;
   setFingerprint: (fingerprint: number) => void;
   fingerprint: number;
   onLogin: (user: User) => void;
 };
 
 export function CompletionMap({
-  user,
+  currentUser: user,
   setFingerprint,
   fingerprint,
   onLogin,
+  currentUser,
 }: CompletionMapProps) {
   const mapPosition: LatLngTuple = [49.193901062, -123.183998108];
 
@@ -102,6 +103,7 @@ export function CompletionMap({
           airports={airports}
           onDeregister={deregister}
           highlightedAirportCodes={highlightedAirportCodes}
+          currentUser={currentUser?.asProperties()}
         />
         <CountriesLayer countryCodes={airports.map((a) => a.airport.country)} />
       </MapContainer>

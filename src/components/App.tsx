@@ -25,7 +25,7 @@ export function App() {
   return (
     <div>
       <CompletionMap
-        user={user}
+        currentUser={user}
         fingerprint={fingerprint}
         setFingerprint={setFingerprint}
         onLogin={onLogin}
