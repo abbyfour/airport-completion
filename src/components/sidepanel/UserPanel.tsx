@@ -1,6 +1,6 @@
+import { InternalClient } from "@/apiClients/internalClient";
 import { UserProperties } from "@/database/entities/user";
 import { UserDetails } from "@/database/UserDetailsModule";
-import { InternalClient } from "@/external/internalClient";
 import { useEffect, useState } from "react";
 
 type UserPanelProps = {

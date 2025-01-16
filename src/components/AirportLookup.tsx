@@ -1,10 +1,10 @@
 "use client";
 
-import { APIAirport } from "@/external/APIAirport";
-import { AirportLookupAPI } from "@/external/airports";
+import { InternalClient } from "@/apiClients/internalClient";
+import { AirportProperties } from "@/database/entities/airport";
 import { useRef, useState } from "react";
 
-export type OnNewAirport = (airport: APIAirport) => void;
+export type OnNewAirport = (airport: AirportProperties) => void;
 
 type AirportLookupProps = {
   onNewAirport: OnNewAirport;
@@ -26,16 +26,15 @@ export function AirportLookup({
 
     if (code) {
       setLoading(true);
-      const airports = await AirportLookupAPI.fetchAirport(code);
+      const response = await InternalClient.lookupAirportByCode(code);
 
-      if (!AirportLookupAPI.isNotFound(airports)) {
+      if (response && "airport" in response) {
         airportCodeInput.current!.value = "";
         setError(undefined);
-        const airport = new APIAirport(airports.features[0]);
 
-        onSubmittedAirport(airport);
+        onSubmittedAirport(response.airport);
       } else {
-        setError(airports.message);
+        setError("Couldn't find an airport with that code.");
       }
 
       setLoading(false);

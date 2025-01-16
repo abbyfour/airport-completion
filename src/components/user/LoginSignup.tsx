@@ -1,5 +1,5 @@
+import { InternalClient } from "@/apiClients/internalClient";
 import { User } from "@/database/entities/user";
-import { InternalClient } from "@/external/internalClient";
 import { useState } from "react";
 import { UserDisplay } from "./UserDisplay";
 

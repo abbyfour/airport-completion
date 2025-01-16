@@ -1,7 +1,7 @@
 import { AirplaneIcon, HighlightedAirplaneIcon } from "@/assets/AirplaneIcon";
 import { AirportWithUsers } from "@/database/entities/airport";
 import { UserProperties } from "@/database/entities/user";
-import { toLatLng } from "@/external/APIAirport";
+import { LatLng } from "leaflet";
 import { Marker, Popup, Tooltip } from "react-leaflet";
 
 export type AirportMarkerProps = {
@@ -10,6 +10,12 @@ export type AirportMarkerProps = {
   onDeregister: (airportId: number) => void;
   highlighted?: boolean;
 };
+
+export function toLatLng<T extends { latitude: number; longitude: number }>(
+  obj: T
+): LatLng {
+  return new LatLng(obj.latitude, obj.longitude);
+}
 
 export function AirportMarker({
   airport,

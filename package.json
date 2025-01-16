@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/better-sqlite3": "^7.6.11",
     "better-sqlite3": "^11.1.2",
+    "csv-parser": "^3.1.0",
     "leaflet": "^1.9.4",
     "next": "14.2.5",
     "react": "^18",

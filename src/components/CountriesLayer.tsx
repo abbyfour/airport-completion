@@ -1,4 +1,4 @@
-import { InternalClient } from "@/external/internalClient";
+import { InternalClient } from "@/apiClients/internalClient";
 import { GeoJSON as LeafletGeoJSON } from "leaflet";
 import { useEffect, useRef } from "react";
 import { GeoJSON } from "react-leaflet";

@@ -1,9 +1,11 @@
 "use client";
 
-import { AirportWithUsers } from "@/database/entities/airport";
+import { InternalClient } from "@/apiClients/internalClient";
+import {
+  AirportProperties,
+  AirportWithUsers,
+} from "@/database/entities/airport";
 import { User, UserProperties } from "@/database/entities/user";
-import { APIAirport } from "@/external/APIAirport";
-import { InternalClient } from "@/external/internalClient";
 import { LatLngTuple } from "leaflet";
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
@@ -55,11 +57,8 @@ export function CompletionMap({
     fetchAirports();
   }, []);
 
-  const registerAirport = async (airport: APIAirport) => {
-    const response = InternalClient.registerAirport(
-      user!.id,
-      airport.asDBProperties()
-    );
+  const registerAirport = async (airport: AirportProperties) => {
+    const response = InternalClient.registerAirport(user!.id, airport);
 
     if (InternalClient.isError(response)) {
       console.error(response.error);

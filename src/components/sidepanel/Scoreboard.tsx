@@ -1,11 +1,11 @@
 "use client";
 
+import { InternalClient } from "@/apiClients/internalClient";
 import {
   CountryScoreboard as CountryScoreboardType,
   Scoreboard as ScoreboardType,
 } from "@/database/db";
 import { User } from "@/database/entities/user";
-import { InternalClient } from "@/external/internalClient";
 import { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { SetSelectedUser } from "../CompletionMap";
