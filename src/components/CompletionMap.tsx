@@ -92,6 +92,7 @@ export function CompletionMap({
         zoom={3}
         scrollWheelZoom={true}
         className="w-screen h-screen absolute top-0 left-0"
+        worldCopyJump={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
