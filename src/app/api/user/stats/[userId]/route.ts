@@ -1,8 +1,7 @@
 import { DB } from "@/database/db";
-import { NextApiRequest } from "next";
 
 export async function GET(
-  _req: NextApiRequest,
+  _req: Request,
   { params }: { params: { userId: string } }
 ) {
   const userId = params.userId;
