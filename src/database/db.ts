@@ -182,20 +182,22 @@ export class DB {
     return stmt.all() as Scoreboard;
   }
 
-  public async countryScoreboard(): Promise<CountryScoreboard> {
-    const stmt = this.db.prepare(
-      `SELECT country, COUNT(*) as count
-       FROM (
-         SELECT airports.country, airports.id
-         FROM airports
-         JOIN user_airports ON airports.id = user_airports.airport_id
-         GROUP BY airports.country, airports.id
-       ) as distinct_airports
-       GROUP BY country
-       ORDER BY count DESC`
-    );
-
-    return stmt.all() as CountryScoreboard;
+  public async mostUniqueScoreboard(): Promise<Scoreboard> {
+    const stmt = this.db.prepare(`
+      SELECT u.username, u.id AS userId, COUNT(ua.airport_id) AS count
+      FROM users u
+      LEFT JOIN user_airports ua
+      ON u.id = ua.user_id
+      AND ua.airport_id IN (
+        SELECT airport_id
+        FROM user_airports
+        GROUP BY airport_id
+        HAVING COUNT(user_id) = 1
+      )
+      GROUP BY u.id
+      ORDER BY count DESC
+    `);
+    return stmt.all() as Scoreboard;
   }
 
   private createTables() {
@@ -213,3 +215,8 @@ export class DB {
 
 export type Scoreboard = { username: string; userId: number; count: number }[];
 export type CountryScoreboard = { country: string; count: number }[];
+export type MostUniqueScoreboard = {
+  username: string;
+  userId: number;
+  uniqueCount: number;
+}[];

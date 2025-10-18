@@ -1,4 +1,4 @@
-import { CountryScoreboard, Scoreboard } from "@/database/db";
+import { Scoreboard } from "@/database/db";
 import {
   AirportProperties,
   AirportWithUsers,
@@ -94,8 +94,8 @@ export class InternalClient {
     return await InternalClient.get("/airports/scoreboard/byCountry");
   }
 
-  public static async countryScoreboard(): Promise<CountryScoreboard> {
-    return await InternalClient.get("/airports/scoreboard/countries");
+  public static async mostUniqueScoreboard(): Promise<Scoreboard> {
+    return await InternalClient.get("/airports/scoreboard/unique");
   }
 
   public static async userDetails(id: number): Promise<UserDetails> {

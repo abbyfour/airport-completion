@@ -1,4 +1,8 @@
-import { AirplaneIcon, HighlightedAirplaneIcon } from "@/assets/AirplaneIcon";
+import {
+  AirplaneIcon,
+  HighlightedAirplaneIcon,
+  HighlightedUniqueAirplaneIcon,
+} from "@/assets/AirplaneIcon";
 import { AirportWithUsers } from "@/database/entities/airport";
 import { UserProperties } from "@/database/entities/user";
 import { LatLng } from "leaflet";
@@ -8,7 +12,7 @@ export type AirportMarkerProps = {
   airport: AirportWithUsers;
   currentUser: UserProperties | undefined;
   onDeregister: (airportId: number) => void;
-  highlighted?: boolean;
+  highlighted?: boolean | "unique";
 };
 
 export function toLatLng<T extends { latitude: number; longitude: number }>(
@@ -26,11 +30,17 @@ export function AirportMarker({
   return (
     <Marker
       position={toLatLng(airport.airport)}
-      icon={highlighted ? HighlightedAirplaneIcon : AirplaneIcon}
+      icon={
+        highlighted
+          ? highlighted === "unique"
+            ? HighlightedUniqueAirplaneIcon
+            : HighlightedAirplaneIcon
+          : AirplaneIcon
+      }
     >
       <Popup className="text-red-950">
         <h3 className="text-lg m-0">
-          <span className="text-red-500 text-base mr-2">
+          <span className="text-highlight text-base mr-2">
             {airport.airport.code}
           </span>
           {airport.airport.name}{" "}
@@ -45,7 +55,7 @@ export function AirportMarker({
                 {currentUser?.id === user.id ? (
                   <span
                     onClick={() => onDeregister(airport.airport.id)}
-                    className="hover:cursor-pointer text-red-500"
+                    className="hover:cursor-pointer text-highlight"
                   >
                     x
                   </span>

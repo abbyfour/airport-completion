@@ -9,6 +9,10 @@ export interface AirportProperties {
   longitude: number;
 }
 
+export type UserAirportProperties = AirportProperties & {
+  isUnique: boolean;
+};
+
 export class Airport {
   public static readonly schema = `
     CREATE TABLE IF NOT EXISTS airports (

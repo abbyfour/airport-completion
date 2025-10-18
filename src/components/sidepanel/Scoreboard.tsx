@@ -1,16 +1,12 @@
 "use client";
 
 import { InternalClient } from "@/apiClients/internalClient";
-import {
-  CountryScoreboard as CountryScoreboardType,
-  Scoreboard as ScoreboardType,
-} from "@/database/db";
+import { Scoreboard as ScoreboardType } from "@/database/db";
 import { User } from "@/database/entities/user";
 import { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { SetSelectedUser } from "../CompletionMap";
 import { ByCountryScoreboard } from "./ByCountryScoreboard";
-import { CountryScoreboard } from "./CountryScoreboard";
 import { DefaultScoreboard } from "./DefaultScoreboard";
 
 type ScoreboardProps = {
@@ -48,7 +44,7 @@ export function Scoreboard({
     <div
       className={
         className +
-        " py-3 pr-0 z-[401] mt-2 bg-white rounded flex" +
+        " py-3 pr-0 z-[401] mt-2 bg-zinc-900 text-white rounded flex" +
         (!hidden ? " w-2/6 min-w-[500px]" : "")
       }
     >
@@ -88,21 +84,22 @@ function ScoreboardTabs({
   const [scoreboard, setScoreboard] = useState<ScoreboardType | undefined>(
     undefined
   );
-  const [countryScoreboard, setCountryScoreboard] = useState<
-    CountryScoreboardType | undefined
+  const [mostUniqueScoreboard, setMostUniqueScoreboard] = useState<
+    ScoreboardType | undefined
   >(undefined);
   const [byCountryScoreboard, setByCountryScoreboard] = useState<
     ScoreboardType | undefined
   >(undefined);
 
   useEffect(() => {
-    InternalClient.countryScoreboard().then((scoreboard) => {
-      setCountryScoreboard(scoreboard);
+    InternalClient.mostUniqueScoreboard().then((scoreboard) => {
+      setMostUniqueScoreboard(scoreboard);
     });
 
     InternalClient.scoreboard().then((scoreboard) => {
       setScoreboard(scoreboard);
     });
+
     InternalClient.scoreboardByCountry().then((scoreboard) => {
       setByCountryScoreboard(scoreboard);
     });
@@ -129,14 +126,14 @@ function ScoreboardTabs({
           <span className="font-semibold">|</span>
 
           <Tab className="hover:underline">
-            <h1>Top Countries</h1>
+            <h1>Most Unique</h1>
           </Tab>
         </TabList>
 
         <TabPanel>
           <DefaultScoreboard
-            setSelectedUser={setSelectedUser}
             scoreboard={scoreboard}
+            setSelectedUser={setSelectedUser}
             currentUser={currentUser}
           />
         </TabPanel>
@@ -150,7 +147,11 @@ function ScoreboardTabs({
         </TabPanel>
 
         <TabPanel>
-          <CountryScoreboard scoreboard={countryScoreboard} />
+          <DefaultScoreboard
+            scoreboard={mostUniqueScoreboard}
+            setSelectedUser={setSelectedUser}
+            currentUser={currentUser}
+          />
         </TabPanel>
       </Tabs>
     </div>

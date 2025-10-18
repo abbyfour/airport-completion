@@ -1,5 +1,5 @@
 import { Database } from "better-sqlite3";
-import { AirportProperties } from "./entities/airport";
+import { AirportProperties, UserAirportProperties } from "./entities/airport";
 import { UserProperties } from "./entities/user";
 
 export interface UserDetails {
@@ -7,7 +7,7 @@ export interface UserDetails {
   username: string;
 
   stats: {
-    airports: AirportProperties[];
+    airports: UserAirportProperties[];
     totalAirports: number;
     totalCountries: number;
     uniqueAirports: number;
@@ -40,11 +40,16 @@ export class UserDetailsModule {
       this.fetchUserTotalAirportsAndCountries(id);
     const uniqueAirports = this.fetchUserUniqueAirports(id);
 
+    const preparedAirports = airports.map((airport) => ({
+      ...airport,
+      isUnique: uniqueAirports.some((ua) => ua.id === airport.id),
+    }));
+
     return {
-      airports,
+      airports: preparedAirports,
       totalAirports,
       totalCountries,
-      uniqueAirports,
+      uniqueAirports: uniqueAirports.length,
     };
   }
 
@@ -67,19 +72,21 @@ export class UserDetailsModule {
     return stmt.get(id) as { totalAirports: number; totalCountries: number };
   }
 
-  private fetchUserUniqueAirports(id: number): number {
+  private fetchUserUniqueAirports(id: number): AirportProperties[] {
     const stmt = this.db.prepare(
       `
-      SELECT COUNT(ua1.airport_id) as uniqueAirports
-      FROM user_airports ua1
-      WHERE ua1.user_id = ?
-      AND ua1.airport_id NOT IN (
-          SELECT ua2.airport_id
-          FROM user_airports ua2
-          WHERE ua2.user_id != ?
-      )`
+      SELECT a.*
+      FROM airports a
+      JOIN user_airports ua ON a.id = ua.airport_id
+      WHERE ua.user_id = ?
+      AND a.id NOT IN (
+          SELECT airport_id
+          FROM user_airports
+          WHERE user_id != ?
+      )
+      `
     );
 
-    return (stmt.get(id, id) as { uniqueAirports: number }).uniqueAirports;
+    return stmt.all(id, id) as AirportProperties[];
   }
 }

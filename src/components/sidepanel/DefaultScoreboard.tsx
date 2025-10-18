@@ -16,7 +16,7 @@ export function DefaultScoreboard({
   setSelectedUser,
 }: DefaultScoreboardProps) {
   return (
-    <div className="grid grid-cols-3 justify-between w-full [&>*:nth-child(6n+4)]:bg-red-50 [&>*:nth-child(6n+5)]:bg-red-50 [&>*:nth-child(6n+6)]:bg-red-50">
+    <div className="grid grid-cols-3 justify-between w-full [&>*:nth-child(6n+4)]:bg-zinc-800 [&>*:nth-child(6n+5)]:bg-zinc-800 [&>*:nth-child(6n+6)]:bg-zinc-800">
       <div className="font-semibold">Rank</div>
       <div className="font-semibold">Username</div>
       <div className="font-semibold">Airports</div>

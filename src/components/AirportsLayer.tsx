@@ -1,4 +1,7 @@
-import { AirportWithUsers } from "@/database/entities/airport";
+import {
+  AirportWithUsers,
+  UserAirportProperties,
+} from "@/database/entities/airport";
 import { UserProperties } from "@/database/entities/user";
 import { LayerGroup } from "react-leaflet";
 import { AirportMarker } from "./AirportMarker";
@@ -6,27 +9,35 @@ import { AirportMarker } from "./AirportMarker";
 type AirportsLayerProps = {
   airports: Array<AirportWithUsers>;
   onDeregister: (airportId: number) => void;
-  highlightedAirportCodes?: string[];
+  highlightedAirports?: UserAirportProperties[];
   currentUser: UserProperties | undefined;
 };
 
 export function AirportsLayer({
   airports,
   onDeregister,
-  highlightedAirportCodes,
+  highlightedAirports,
   currentUser,
 }: AirportsLayerProps) {
   return (
     <LayerGroup>
-      {airports.map((airport) => (
-        <AirportMarker
-          key={airport.airport.id}
-          airport={airport}
-          onDeregister={onDeregister}
-          highlighted={highlightedAirportCodes?.includes(airport.airport.code)}
-          currentUser={currentUser}
-        />
-      ))}
+      {airports.map((airport) => {
+        const highlight = highlightedAirports?.find(
+          (a) => a.code === airport.airport.code
+        );
+
+        return (
+          <AirportMarker
+            key={airport.airport.id}
+            airport={airport}
+            onDeregister={onDeregister}
+            highlighted={
+              highlight ? (highlight.isUnique ? "unique" : true) : undefined
+            }
+            currentUser={currentUser}
+          />
+        );
+      })}
     </LayerGroup>
   );
 }

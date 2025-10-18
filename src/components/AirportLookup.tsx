@@ -42,12 +42,13 @@ export function AirportLookup({
   }
 
   return (
-    <div className="z-[500] bg-white p-3 rounded ml-5 mb-2 w-full">
+    <div className="z-[500] text-white bg-zinc-900 p-3 rounded ml-5 mb-2 w-full">
       <form onSubmit={lookupAirport} className="flex flex-col gap-2">
         <label htmlFor="airportCode" className="mr-3">
           Enter an airport you've been to...
         </label>
         <input
+          className="text-white bg-zinc-950 border-zinc-700 p-1"
           type="text"
           name="airport"
           id="airportCode"
@@ -58,7 +59,7 @@ export function AirportLookup({
       </form>
 
       {error && (
-        <div className="p-2 mt-2 bg-red-100 rounded-lg">
+        <div className="p-2 mt-2 bg-zinc-950 text-unique rounded-lg">
           <p>{error}</p>
         </div>
       )}

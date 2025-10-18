@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -11,10 +13,6 @@
     @apply border-2 border-red-700;
   }
 
-  .font-display {
-    font-family: "IBM Plex Serif", serif;
-  }
-
   .prevent-select {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
@@ -22,8 +20,8 @@
   }
 }
 
-html {
-  color: theme("colors.red.950");
+.leaflet-container {
+  background: #222222 !important;
 }
 
 input {
@@ -43,7 +41,7 @@ button:hover {
   background: theme("colors.red.200");
 }
 
-.leaflet-marker-icon {
-  filter: invert(9%) sepia(41%) saturate(3897%) hue-rotate(345deg)
-    brightness(86%) contrast(101%);
+.leaflet-popup-content-wrapper {
+  background: theme("colors.zinc.900") !important;
+  color: white !important;
 }

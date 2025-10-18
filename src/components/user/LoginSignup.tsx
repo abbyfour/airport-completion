@@ -44,7 +44,8 @@ export function LoginSignup({ onLogin, user, className }: LoginSignupProps) {
   return (
     <div
       className={
-        className + " p-1 z-[401] flex flex-col gap-2 bg-white rounded"
+        className +
+        " p-1 z-[401] flex flex-col gap-2 text-white bg-zinc-900 rounded"
       }
     >
       {error && (

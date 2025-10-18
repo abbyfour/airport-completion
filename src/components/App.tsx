@@ -23,7 +23,7 @@ export function App() {
   }, []);
 
   return (
-    <div>
+    <div className="font-sans">
       <CompletionMap
         currentUser={user}
         fingerprint={fingerprint}

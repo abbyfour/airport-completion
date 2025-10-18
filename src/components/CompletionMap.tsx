@@ -4,6 +4,7 @@ import { InternalClient } from "@/apiClients/internalClient";
 import {
   AirportProperties,
   AirportWithUsers,
+  UserAirportProperties,
 } from "@/database/entities/airport";
 import { User, UserProperties } from "@/database/entities/user";
 import { LatLngTuple } from "leaflet";
@@ -11,8 +12,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { AirportsLayer } from "./AirportsLayer";
 import { CountriesLayer } from "./CountriesLayer";
-import { LeftSidepanel } from "./sidepanel/LeftSidepanel";
-import { RightSidepanel } from "./sidepanel/RightSidepanel";
+import { SidepanelGroup } from "./sidepanel/SidepanelGroup";
 
 export type SetSelectedUser = (user: UserProperties | undefined) => void;
 
@@ -37,8 +37,8 @@ export function CompletionMap({
   const [selectedUser, setSelectedUser] = useState<UserProperties | undefined>(
     undefined
   );
-  const [highlightedAirportCodes, setHighlightedAirportCodes] = useState<
-    string[]
+  const [highlightedAirports, setHighlightedAirports] = useState<
+    UserAirportProperties[]
   >([]);
 
   function fetchAirports() {
@@ -96,30 +96,28 @@ export function CompletionMap({
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
         <AirportsLayer
           airports={airports}
           onDeregister={deregister}
-          highlightedAirportCodes={highlightedAirportCodes}
+          highlightedAirports={highlightedAirports}
           currentUser={currentUser?.asProperties()}
         />
+
         <CountriesLayer countryCodes={airports.map((a) => a.airport.country)} />
       </MapContainer>
 
-      <LeftSidepanel
+      <SidepanelGroup
         lookupDisabled={!user || !doneLoading}
         onNewAirport={registerAirport}
         selectedUser={selectedUser}
-        setHighlightedAirportCodes={setHighlightedAirportCodes}
+        setHighlightedAirports={setHighlightedAirports}
         fingerprint={fingerprint}
-      />
-
-      <RightSidepanel
         onLogin={onLogin}
         user={user}
-        fingerprint={fingerprint}
         setSelectedUser={setSelectedUser}
       />
     </div>

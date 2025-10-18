@@ -1,17 +1,18 @@
 import { InternalClient } from "@/apiClients/internalClient";
+import { UserAirportProperties } from "@/database/entities/airport";
 import { UserProperties } from "@/database/entities/user";
 import { UserDetails } from "@/database/UserDetailsModule";
 import { useEffect, useState } from "react";
 
 type UserPanelProps = {
   selectedUser: UserProperties | undefined;
-  setHighlightedAirportCodes: (codes: string[]) => void;
+  setHighlightedAirports: (airports: UserAirportProperties[]) => void;
   fingerprint: number;
 };
 
 export function UserPanel({
   selectedUser,
-  setHighlightedAirportCodes,
+  setHighlightedAirports,
   fingerprint,
 }: UserPanelProps) {
   const [selectedUserDetails, setSelectedUserDetails] = useState<
@@ -32,11 +33,9 @@ export function UserPanel({
 
   useEffect(() => {
     if (selectedUserDetails) {
-      setHighlightedAirportCodes(
-        selectedUserDetails.stats.airports.map((airport) => airport.code)
-      );
+      setHighlightedAirports(selectedUserDetails.stats.airports);
     } else {
-      setHighlightedAirportCodes([]);
+      setHighlightedAirports([]);
     }
   }, [selectedUserDetails]);
 
@@ -45,11 +44,11 @@ export function UserPanel({
   }
 
   return (
-    <div className="z-[500] bg-white p-3 rounded ml-5 mb-2 w-full max-w-[25vw] flex justify-between">
+    <div className="z-[500] text-white bg-zinc-900 p-3 rounded ml-5 mb-2 w-full max-w-[25vw] flex justify-between">
       <div>
         <h1>
           <span className="font-bold">{selectedUserDetails.username}</span>{" "}
-          <span className="text-red-500 text-sm">
+          <span className="text-highlight text-sm">
             ({selectedUserDetails.id})
           </span>
         </h1>
@@ -62,7 +61,8 @@ export function UserPanel({
             </p>
             <p>
               <span className="font-medium italic">
-                ...of which are unique to them:
+                ...of which are <span className="text-unique">unique </span>
+                to them:
               </span>{" "}
               {selectedUserDetails.stats.uniqueAirports}
             </p>
@@ -73,10 +73,16 @@ export function UserPanel({
           </div>
 
           <div>
-            <div className="ml-5 text-xs text-red-950 grid grid-cols-[min-content_1fr] gap-x-3 max-h-[60vh] overflow-scroll">
+            <div className="ml-5 text-xs grid grid-cols-[min-content_1fr] gap-x-3 max-h-[60vh] overflow-scroll">
               {selectedUserDetails.stats.airports.map((airport) => (
                 <>
-                  <p className="text-red-500">{airport.code}</p>
+                  <p
+                    className={
+                      airport.isUnique ? "text-unique" : "text-highlight"
+                    }
+                  >
+                    {airport.code}
+                  </p>
                   <p>
                     {airport.name} ({airport.country})
                   </p>
@@ -89,7 +95,7 @@ export function UserPanel({
 
       <span
         onClick={() => setSelectedUserDetails(undefined)}
-        className="text-red-500 font-bold hover:cursor-pointer"
+        className="text-highlight font-bold hover:cursor-pointer"
       >
         x
       </span>

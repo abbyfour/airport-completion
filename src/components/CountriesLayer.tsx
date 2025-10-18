@@ -36,10 +36,10 @@ export function CountriesLayer({ countryCodes }: CountriesLayerProps) {
       ref={geoJsonLayer}
       data={initialData}
       style={{
-        fillColor: fullConfig.theme.colors.yellow[400],
+        fillColor: fullConfig.theme.colors.sky[950],
         weight: 1,
         opacity: 1,
-        color: "#e7c952",
+        color: "#1C0C12",
         fillOpacity: 0.4,
       }}
     />
