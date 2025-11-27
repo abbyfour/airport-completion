@@ -20,7 +20,7 @@ type CompletionMapProps = {
   currentUser?: User;
   setFingerprint: (fingerprint: number) => void;
   fingerprint: number;
-  onLogin: (user: User) => void;
+  onLogin: (user: User | undefined) => void;
 };
 
 export function CompletionMap({

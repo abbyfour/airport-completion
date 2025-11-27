@@ -9,9 +9,14 @@ export function App() {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [fingerprint, setFingerprint] = useState(0);
 
-  const onLogin = (user: User) => {
+  const onLogin = (user: User | undefined) => {
     setUser(user);
-    localStorage.setItem("user", JSON.stringify(user.asProperties()));
+
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user.asProperties()));
+    } else {
+      localStorage.removeItem("user");
+    }
   };
 
   useEffect(() => {

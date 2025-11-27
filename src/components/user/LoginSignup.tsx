@@ -4,7 +4,7 @@ import { useState } from "react";
 import { UserDisplay } from "./UserDisplay";
 
 type LoginSignupProps = {
-  onLogin: (user: User) => void;
+  onLogin: (user: User | undefined) => void;
   user: User | undefined;
   className?: string;
 };
@@ -41,6 +41,10 @@ export function LoginSignup({ onLogin, user, className }: LoginSignupProps) {
     }
   };
 
+  const logout = () => {
+    onLogin(undefined);
+  };
+
   return (
     <div
       className={
@@ -58,6 +62,7 @@ export function LoginSignup({ onLogin, user, className }: LoginSignupProps) {
         <div className="flex flex-col gap-2">
           <label htmlFor="username">Username</label>
           <input
+            className="bg-zinc-950 border-zinc-700"
             type="text"
             name="username"
             id="username"
@@ -67,6 +72,7 @@ export function LoginSignup({ onLogin, user, className }: LoginSignupProps) {
 
           <label htmlFor="password">Password</label>
           <input
+            className="bg-zinc-950 border-zinc-700"
             type="password"
             name="password"
             id="password"
@@ -74,12 +80,22 @@ export function LoginSignup({ onLogin, user, className }: LoginSignupProps) {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button onClick={login}>Log In</button>
-          <button onClick={signup}>Sign Up</button>
+          <button
+            className="bg-zinc-700 border-zinc-950 hover:bg-highlight"
+            onClick={login}
+          >
+            Log In
+          </button>
+          <button
+            className="bg-zinc-700 border-zinc-950 hover:bg-highlight"
+            onClick={signup}
+          >
+            Sign Up
+          </button>
         </div>
       )}
 
-      {user && <UserDisplay user={user} />}
+      {user && <UserDisplay user={user} logout={logout} />}
     </div>
   );
 }

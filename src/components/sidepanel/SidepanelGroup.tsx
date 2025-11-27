@@ -9,7 +9,7 @@ import { Scoreboard } from "./Scoreboard";
 import { UserPanel } from "./UserPanel";
 
 type RightSidepanelProps = {
-  onLogin: (user: User) => void;
+  onLogin: (user: User | undefined) => void;
   user?: User;
   fingerprint: number;
   setSelectedUser: SetSelectedUser;
