@@ -7,10 +7,12 @@ export interface AirportProperties {
   country: string;
   latitude: number;
   longitude: number;
+  is_disused: boolean;
 }
 
 export type UserAirportProperties = AirportProperties & {
   isUnique: boolean;
+  isEternal: boolean;
 };
 
 export class Airport {
@@ -21,7 +23,8 @@ export class Airport {
         name TEXT NOT NULL,
         country TEXT NOT NULL,
         latitude REAL NOT NULL,
-        longitude REAL NOT NULL
+        longitude REAL NOT NULL,
+        is_disused BOOLEAN DEFAULT FALSE
       );
   `;
 
@@ -31,6 +34,7 @@ export class Airport {
   public country: string;
   public latitude: number;
   public longitude: number;
+  public isDisused: boolean;
 
   constructor(
     name: string,
@@ -38,13 +42,15 @@ export class Airport {
     country: string,
     latitude: number,
     longitude: number,
-    id: number
+    id: number,
+    isDisused: boolean | undefined
   ) {
     this.name = name;
     this.code = code;
     this.country = country;
     this.latitude = latitude;
     this.longitude = longitude;
+    this.isDisused = isDisused ?? false;
 
     this.id = id;
   }

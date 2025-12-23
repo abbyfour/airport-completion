@@ -66,6 +66,38 @@ export function UserPanel({
               </span>{" "}
               {selectedUserDetails.stats.uniqueAirports}
             </p>
+
+            {selectedUserDetails.stats.disusedAirports ? (
+              <p>
+                <span className="font-medium italic">
+                  ...of which are <span className="text-closed">closed:</span>
+                </span>{" "}
+                {selectedUserDetails.stats.disusedAirports}
+              </p>
+            ) : (
+              <> </>
+            )}
+
+            {selectedUserDetails.stats.eternalAirports ? (
+              <p>
+                <span className="font-medium italic">
+                  ...of which are{" "}
+                  <span
+                    className="text-eternal underline decoration-dotted hover:cursor-help"
+                    title="Eternal airports are unique airports that have since been closed."
+                  >
+                    eternal
+                  </span>{" "}
+                  to them:
+                </span>{" "}
+                {selectedUserDetails.stats.eternalAirports}
+              </p>
+            ) : (
+              <> </>
+            )}
+
+            <br />
+
             <p>
               <span className="font-medium">Countries visited:</span>{" "}
               {selectedUserDetails.stats.totalCountries}
@@ -78,7 +110,13 @@ export function UserPanel({
                 <>
                   <p
                     className={
-                      airport.isUnique ? "text-unique" : "text-highlight"
+                      airport.isEternal
+                        ? "text-eternal"
+                        : airport.isUnique
+                        ? "text-unique"
+                        : airport.is_disused
+                        ? "text-closed"
+                        : "text-highlight"
                     }
                   >
                     {airport.code}

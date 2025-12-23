@@ -11,6 +11,8 @@ export interface UserDetails {
     totalAirports: number;
     totalCountries: number;
     uniqueAirports: number;
+    disusedAirports: number;
+    eternalAirports: number;
   };
 }
 
@@ -40,16 +42,23 @@ export class UserDetailsModule {
       this.fetchUserTotalAirportsAndCountries(id);
     const uniqueAirports = this.fetchUserUniqueAirports(id);
 
-    const preparedAirports = airports.map((airport) => ({
-      ...airport,
-      isUnique: uniqueAirports.some((ua) => ua.id === airport.id),
-    }));
+    const preparedAirports = airports.map((airport) => {
+      const isUnique = uniqueAirports.some((ua) => ua.id === airport.id);
+
+      return {
+        ...airport,
+        isUnique,
+        isEternal: isUnique && airport.is_disused,
+      };
+    });
 
     return {
       airports: preparedAirports,
       totalAirports,
       totalCountries,
       uniqueAirports: uniqueAirports.length,
+      disusedAirports: preparedAirports.filter((a) => a.is_disused).length,
+      eternalAirports: preparedAirports.filter((a) => a.isEternal).length,
     };
   }
 

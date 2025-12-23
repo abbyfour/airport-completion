@@ -13,12 +13,12 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      fontFamily: {
-        display: ["Josefin Sans", "sans-serif"],
-      },
+      fontFamily: {},
       colors: {
         highlight: "#5d9febff",
         unique: "#f0c330ff",
+        closed: "#ee7a7c",
+        eternal: "#d694ff",
       },
     },
   },

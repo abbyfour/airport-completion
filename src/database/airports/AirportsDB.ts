@@ -46,6 +46,7 @@ export abstract class AirportsDB {
       country: rawRow.iso_country,
       latitude: parseFloat(rawRow.latitude_deg),
       longitude: parseFloat(rawRow.longitude_deg),
+      is_disused: false,
     };
   }
 
