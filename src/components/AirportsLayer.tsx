@@ -32,8 +32,17 @@ export function AirportsLayer({
             airport={airport}
             onDeregister={onDeregister}
             highlighted={
-              highlight ? (highlight.isUnique ? "unique" : true) : undefined
+              highlight
+                ? highlight.isEternal
+                  ? "eternal"
+                  : highlight.isUnique
+                  ? "unique"
+                  : highlight.is_disused
+                  ? "disused"
+                  : true
+                : undefined
             }
+            otherAirportsHighlighted={!!highlightedAirports?.length}
             currentUser={currentUser}
           />
         );

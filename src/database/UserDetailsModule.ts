@@ -11,6 +11,8 @@ export interface UserDetails {
     totalAirports: number;
     totalCountries: number;
     uniqueAirports: number;
+    disusedAirports: number;
+    eternalAirports: number;
   };
 }
 
@@ -55,6 +57,8 @@ export class UserDetailsModule {
       totalAirports,
       totalCountries,
       uniqueAirports: uniqueAirports.length,
+      disusedAirports: preparedAirports.filter((a) => a.is_disused).length,
+      eternalAirports: preparedAirports.filter((a) => a.isEternal).length,
     };
   }
 

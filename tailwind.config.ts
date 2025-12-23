@@ -17,6 +17,8 @@ const config: Config = {
       colors: {
         highlight: "#5d9febff",
         unique: "#f0c330ff",
+        closed: "#ee7a7c",
+        eternal: "#d694ff",
       },
     },
   },

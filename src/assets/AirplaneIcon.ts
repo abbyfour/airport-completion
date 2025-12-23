@@ -20,3 +20,24 @@ export const HighlightedUniqueAirplaneIcon = new L.Icon({
   popupAnchor: [-0, -0],
   iconSize: [20, 30],
 });
+
+export const HighlightedDisusedAirplaneIcon = new L.Icon({
+  iconUrl: "/airplane-highlighted-disused.svg",
+  iconRetinaUrl: "/airplane-highlighted-disused.svg",
+  popupAnchor: [-0, -0],
+  iconSize: [20, 30],
+});
+
+export const HighlightedEternalAirplaneIcon = new L.Icon({
+  iconUrl: "/airplane-highlighted-eternal.svg",
+  iconRetinaUrl: "/airplane-highlighted-eternal.svg",
+  popupAnchor: [-0, -0],
+  iconSize: [20, 30],
+});
+
+export const DisselectedAirplaneIcon = new L.Icon({
+  iconUrl: "/airplane-disselected.svg",
+  iconRetinaUrl: "/airplane-disselected.svg",
+  popupAnchor: [-0, -0],
+  iconSize: [20, 30],
+});
