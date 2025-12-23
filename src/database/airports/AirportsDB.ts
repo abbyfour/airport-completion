@@ -34,14 +34,14 @@ export abstract class AirportsDB {
     const rawRow = await this.forEachAirport(
       (airport) =>
         compareCodes(code, airport.iata_code) ||
-        compareCodes(code, airport.ident)
+        compareCodes(code, airport.local_code)
     );
 
     if (!rawRow) return undefined;
 
     return {
       id: -1,
-      code: rawRow.iata_code || rawRow.ident,
+      code: rawRow.iata_code || rawRow.local_code,
       name: rawRow.name,
       country: rawRow.iso_country,
       latitude: parseFloat(rawRow.latitude_deg),
