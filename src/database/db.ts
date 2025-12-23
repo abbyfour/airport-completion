@@ -86,7 +86,7 @@ export class DB {
       properties.country,
       properties.latitude,
       properties.longitude,
-      properties.is_disused
+      properties.is_disused ? 1 : 0
     ) as RunResult;
 
     return new Airport(

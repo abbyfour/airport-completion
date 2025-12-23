@@ -4,6 +4,8 @@ import { AirportProperties } from "@/database/entities/airport";
 export async function POST(request: Request) {
   const body: AirportProperties & { user_id: number } = await request.json();
 
+  console.log(body);
+
   const airport = DB.getInstance().fetchOrCreateAirport(body);
 
   if (airport && body.user_id) {

@@ -59,21 +59,23 @@ export function AirportMarker({
         <div>
           <p>Users that have visited this airport:</p>
           <ul>
-            {airport.users.map((user) => (
-              <li key={user.id}>
-                {user.username}{" "}
-                {currentUser?.id === user.id ? (
-                  <span
-                    onClick={() => onDeregister(airport.airport.id)}
-                    className="hover:cursor-pointer text-highlight"
-                  >
-                    x
-                  </span>
-                ) : (
-                  <> </>
-                )}
-              </li>
-            ))}
+            {airport.users
+              .sort((a, b) => a.username.localeCompare(b.username))
+              .map((user) => (
+                <li key={user.id}>
+                  {user.username}{" "}
+                  {currentUser?.id === user.id ? (
+                    <span
+                      onClick={() => onDeregister(airport.airport.id)}
+                      className="hover:cursor-pointer text-highlight"
+                    >
+                      x
+                    </span>
+                  ) : (
+                    <> </>
+                  )}
+                </li>
+              ))}
           </ul>
         </div>
       </Popup>

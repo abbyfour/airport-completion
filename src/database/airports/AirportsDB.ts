@@ -28,20 +28,28 @@ type ForEachAirportPredicate = (airport: AirportRow) => boolean;
 export abstract class AirportsDB {
   static filepath = "src/database/airports/airports.csv";
 
+  private static async findRowByCode(
+    code: string,
+    codeType: keyof AirportRow
+  ): Promise<AirportRow | undefined> {
+    return await this.forEachAirport((airport) =>
+      compareCodes(code, airport[codeType])
+    );
+  }
+
   public static async findAirportByCode(
     code: string
   ): Promise<AirportProperties | undefined> {
-    const rawRow = await this.forEachAirport(
-      (airport) =>
-        compareCodes(code, airport.iata_code) ||
-        compareCodes(code, airport.local_code)
-    );
+    const rawRow =
+      (await this.findRowByCode(code, "iata_code")) ||
+      (await this.findRowByCode(code, "local_code")) ||
+      (await this.findRowByCode(code, "ident"));
 
     if (!rawRow) return undefined;
 
     return {
       id: -1,
-      code: rawRow.iata_code || rawRow.local_code,
+      code: rawRow.iata_code || rawRow.local_code || rawRow.ident,
       name: rawRow.name,
       country: rawRow.iso_country,
       latitude: parseFloat(rawRow.latitude_deg),
