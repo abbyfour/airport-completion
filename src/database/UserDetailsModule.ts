@@ -40,10 +40,15 @@ export class UserDetailsModule {
       this.fetchUserTotalAirportsAndCountries(id);
     const uniqueAirports = this.fetchUserUniqueAirports(id);
 
-    const preparedAirports = airports.map((airport) => ({
-      ...airport,
-      isUnique: uniqueAirports.some((ua) => ua.id === airport.id),
-    }));
+    const preparedAirports = airports.map((airport) => {
+      const isUnique = uniqueAirports.some((ua) => ua.id === airport.id);
+
+      return {
+        ...airport,
+        isUnique,
+        isEternal: isUnique && airport.is_disused,
+      };
+    });
 
     return {
       airports: preparedAirports,

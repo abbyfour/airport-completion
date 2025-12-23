@@ -12,7 +12,7 @@ export type AirportMarkerProps = {
   airport: AirportWithUsers;
   currentUser: UserProperties | undefined;
   onDeregister: (airportId: number) => void;
-  highlighted?: boolean | "unique";
+  highlighted?: boolean | "unique" | "disused" | "eternal";
 };
 
 export function toLatLng<T extends { latitude: number; longitude: number }>(

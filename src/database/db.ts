@@ -77,7 +77,7 @@ export class DB {
 
   public createAirport(properties: AirportProperties): Airport {
     const stmt = this.db.prepare(
-      "INSERT INTO airports (name, code, country, latitude, longitude) VALUES (?, ?, ?, ?, ?)"
+      "INSERT INTO airports (name, code, country, latitude, longitude, is_disused) VALUES (?, ?, ?, ?, ?, ?)"
     );
 
     const info = stmt.run(
@@ -85,7 +85,8 @@ export class DB {
       properties.code,
       properties.country,
       properties.latitude,
-      properties.longitude
+      properties.longitude,
+      properties.is_disused
     ) as RunResult;
 
     return new Airport(
@@ -94,7 +95,8 @@ export class DB {
       properties.country,
       properties.latitude,
       properties.longitude,
-      parseInt(info.lastInsertRowid.toString())
+      parseInt(info.lastInsertRowid.toString()),
+      properties.is_disused
     );
   }
 
@@ -109,7 +111,8 @@ export class DB {
           airport.country,
           airport.latitude,
           airport.longitude,
-          airport.id
+          airport.id,
+          airport.is_disused
         )
       : this.createAirport(properties);
   }
@@ -134,6 +137,7 @@ export class DB {
         country: result.country,
         latitude: result.latitude,
         longitude: result.longitude,
+        is_disused: result.is_disused,
       };
 
       const user: UserProperties = {
